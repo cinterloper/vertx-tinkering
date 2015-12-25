@@ -24,7 +24,7 @@ var ebHandler = SockJSHandler.create(vertx).bridge(opts,function (be) {
 
     if (be.type() === 'SEND' || be.type() === 'PUBLISH') {
 
-        console.log(be.rawMessage());
+    console.log('########before headers added, source(bridgeing) verticle: JSON.stringify( be.rawMessage())) : ############'+  JSON.stringify( be.rawMessage()));
 
         // Add some headers
         var headers = {
@@ -34,6 +34,7 @@ var ebHandler = SockJSHandler.create(vertx).bridge(opts,function (be) {
         be.rawMessage().headers=headers
 
     }
+    console.log('########after headers added, source(bridgeing) verticle: JSON.stringify( be.rawMessage())) : ############'+  JSON.stringify( be.rawMessage()));
 
     be.complete(true)
 });
@@ -52,9 +53,9 @@ eb.consumer("chat.to.server").handler(function (message) {
 // Create a timestamp string
   var timestamp = Java.type("java.text.DateFormat").getDateTimeInstance(Java.type("java.text.DateFormat").SHORT, Java.type("java.text.DateFormat").MEDIUM).format(Java.type("java.util.Date").from(Java.type("java.time.Instant").now()));
 // Send the message back out to all clients with the timestamp prepended.
-  console.log('########afteradded, src vrt############ : ' +JSON.stringify(message.headers()) );
+  console.log('########after headers added, source/bridge verticle############ JSON.stringify(message.body()) + JSON.stringify(message.headers())  : '  + JSON.stringify(message.body())+ JSON.stringify(message.headers()) );
 
-  eb.publish("chat.to.client", timestamp + ": " + message.body());
+//  eb.publish("chat.to.client", timestamp + ": " + message.body());
 });
 
 vertx.deployVerticle('v2.js', {}, function(res, err){
