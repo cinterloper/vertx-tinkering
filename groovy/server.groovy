@@ -27,9 +27,7 @@ def opts = [
 def ebHandler = SockJSHandler.create(vertx).bridge(opts, { be ->
     if (be.type() == BridgeEventType.SEND || be.type() == BridgeEventType.PUBLISH) {
         headers = new JsonObject().put("thisheader", "kibble").put("thatheader", "skooba")
-        msg = be.rawMessage()
-        msg.put('headers', headers)
-
+        msg = be.rawMessage().headers = headers
     }
     println("##########groovy: after headers added, as rm: ${be.rawMessage().toString()}")
    be.complete(true)
