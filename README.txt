@@ -1,3 +1,21 @@
+run the server verticle (groovy or js)
+vertx run server.lng
+it will deploy 
+ another verticle listening for messages
+ an eventbus bridge
+ a webserver serving the chat app on 8086
+ 
+if you send a message using the chat app, it reaches the bridge
+
+the bridge tries to append the headers as described (please correct me if i missed something) in the 
+Handling event bus bridge events
+section of vertx.io/docs
+
+the headers do not appear (as far as i can tell) in any consumers (groovy or js) setup to recieve them
+
+
+
+
 js:
 ########before headers added, source(bridgeing) verticle: JSON.stringify( be.rawMessage())) : ############{"type":"publish","address":"chat.to.server","headers":{},"body":"sdflkjlksdjf"}
 ########after headers added, source(bridgeing) verticle: JSON.stringify( be.rawMessage())) : ############{"type":"publish","address":"chat.to.server","headers":{"header1":"val","header2":"val2"},"body":"sdflkjlksdjf"}
